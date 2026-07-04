@@ -29,7 +29,7 @@
     padding: 14px 16px; margin-bottom: 24px;
   }
   .weather h2 { font-size: .9rem; color: var(--accent); margin-bottom: 10px; }
-  .weather-now { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+  .weather-now { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
   .weather-now .temp { font-size: 2rem; font-weight: 700; }
   .weather-now .desc { color: var(--sub); }
   .weather-hours { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
@@ -85,16 +85,20 @@
   .map-section {
     border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 24px;
   }
-  #map { height: 320px; background: #16263e; }
-  .num-pin {
-    background: var(--accent); color: #0f1b2d; font-weight: 700; font-size: .8rem;
-    width: 24px; height: 24px; border-radius: 50%; display: flex;
-    align-items: center; justify-content: center; border: 2px solid #fff;
-    box-shadow: 0 1px 4px rgba(0,0,0,.5);
+  .map-section iframe { display: block; width: 100%; height: 360px; border: 0; }
+  .links {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px; margin-top: 16px;
   }
+  .links h2 { font-size: .95rem; color: var(--accent); margin-bottom: 10px; }
+  .links-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .links-grid a {
+    font-size: .8rem; color: var(--text); text-decoration: none;
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px;
+    background: rgba(255,255,255,.04);
+  }
+  .links-grid a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <header>
@@ -103,12 +107,15 @@
 </header>
 
 <section class="weather" id="weather">
-  <h2>☁️ 横浜の天気(Open-Meteo)</h2>
+  <h2>☁️ 横浜の天気</h2>
   <div class="weather-now" id="weather-now"><span class="desc">読み込み中…</span></div>
   <div class="weather-hours" id="weather-hours"></div>
 </section>
 
-<section class="map-section"><div id="map"></div></section>
+<section class="map-section">
+  <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+    src="https://maps.google.com/maps?saddr=港の見える丘公園&daddr=横浜中華街+to:山下公園+to:横浜港大さん橋+to:横浜赤レンガ倉庫+to:カップヌードルミュージアム横浜+to:よこはまコスモワールド&dirflg=w&hl=ja&z=15&output=embed"></iframe>
+</section>
 
 <section class="timeline" id="timeline"></section>
 
@@ -117,12 +124,26 @@
   <ul>
     <li>港の見える丘公園は駅から少し登り坂。バラ園と展望台からベイブリッジがよく見える</li>
     <li>大さん橋〜赤レンガ〜観覧車は日陰少なめ。水分持参で</li>
-    <li>観覧車は1周約15分・¥1000(土曜 11:00–20:00)。混んでたら16:00に並び始めがちょうどいい</li>
-    <li>時間キツければ大さん橋をスキップして観覧車に余裕を持たせる</li>
+    <li>カップヌードルミュージアムは最終入館17:00・火曜休館。大人¥500、高校生以下無料。マイカップヌードル作り(+¥500)は約45分かかるので16時入館なら体験もギリ可</li>
+    <li>観覧車は1周約15分・¥1000(土曜 11:00–20:00)。夏は日没前でも景色◎</li>
+    <li>時間キツければ大さん橋をスキップして後半に余裕を持たせる</li>
   </ul>
 </section>
 
-<footer>予算目安: ランチ〜¥2000 + 観覧車¥1000 + 電車代 | <a href="https://www.google.com/maps/dir/元町・中華街駅/港の見える丘公園/横浜中華街/山下公園/横浜港大さん橋/横浜赤レンガ倉庫/よこはまコスモワールド/" target="_blank">全ルートをGoogle Mapで開く</a></footer>
+<section class="links">
+  <h2>🔗 横浜ダウンタウン お役立ちリンク</h2>
+  <div class="links-grid">
+    <a href="https://www.welcome.city.yokohama.jp/" target="_blank" rel="noopener">横浜観光公式</a>
+    <a href="https://www.chinatown.or.jp/" target="_blank" rel="noopener">横浜中華街公式</a>
+    <a href="https://www.yokohama-akarenga.jp/" target="_blank" rel="noopener">赤レンガ倉庫</a>
+    <a href="https://osanbashi.jp/" target="_blank" rel="noopener">大さん橋</a>
+    <a href="https://www.cupnoodles-museum.jp/ja/yokohama/" target="_blank" rel="noopener">カップヌードルミュージアム</a>
+    <a href="https://cosmoworld.jp/" target="_blank" rel="noopener">コスモワールド</a>
+    <a href="https://minatomirai21.com/" target="_blank" rel="noopener">みなとみらい21</a>
+  </div>
+</section>
+
+<footer>予算目安: ランチ〜¥2000 + ミュージアム¥500 + 観覧車¥1000 + 電車代 | <a href="https://www.google.com/maps/dir/元町・中華街駅/港の見える丘公園/横浜中華街/山下公園/横浜港大さん橋/横浜赤レンガ倉庫/カップヌードルミュージアム横浜/よこはまコスモワールド/" target="_blank">全ルートをGoogle Mapで開く</a></footer>
 
 <script>
 const STOPS = [
@@ -132,7 +153,8 @@ const STOPS = [
   { time: "14:00", end: "14:45", name: "山下公園", badge: "海沿い", note: "海沿いを散歩。氷川丸を横目にみなとみらい方面へ", map: "https://www.google.com/maps/search/山下公園+横浜" },
   { time: "14:45", end: "15:20", name: "大さん橋デッキ", badge: "スキップ可", note: "ウッドデッキの展望スポット。時間が押してたらここを飛ばす", map: "https://www.google.com/maps/search/横浜港大さん橋" },
   { time: "15:20", end: "16:00", name: "赤レンガ倉庫", badge: "ショップ", note: "ショップ＆フォトスポット。休憩にもちょうどいい", map: "https://www.google.com/maps/search/横浜赤レンガ倉庫" },
-  { time: "16:00", end: "17:00", name: "コスモクロック21 🎡", badge: "¥1000", note: "1周約15分。空いてれば待ち5分ほど。17:00 みなとみらいで現地解散!", map: "https://www.google.com/maps/search/よこはまコスモワールド" },
+  { time: "16:00", end: "17:10", name: "カップヌードルミュージアム 🍜", badge: "¥500", note: "最終入館17:00なので16時入館がベスト。高校生以下は無料。マイカップヌードル作りは約45分(+¥500)", map: "https://www.google.com/maps/search/カップヌードルミュージアム横浜" },
+  { time: "17:10", end: "18:00", name: "コスモクロック21 🎡", badge: "¥1000", note: "1周約15分。空いてれば待ち5分ほど。18:00 みなとみらいで現地解散!", map: "https://www.google.com/maps/search/よこはまコスモワールド" },
 ];
 
 function toMin(t) { const [h, m] = t.split(":").map(Number); return h * 60 + m; }
@@ -157,28 +179,20 @@ function render() {
   }).join("");
 }
 
-const WMO = {
-  0: ["快晴", "☀️"], 1: ["晴れ", "🌤️"], 2: ["晴れ時々曇り", "⛅"], 3: ["曇り", "☁️"],
-  45: ["霧", "🌫️"], 48: ["霧", "🌫️"], 51: ["霧雨", "🌦️"], 53: ["霧雨", "🌦️"], 55: ["霧雨", "🌧️"],
-  61: ["小雨", "🌧️"], 63: ["雨", "🌧️"], 65: ["大雨", "🌧️"], 80: ["にわか雨", "🌦️"],
-  81: ["にわか雨", "🌧️"], 82: ["激しいにわか雨", "⛈️"], 95: ["雷雨", "⛈️"],
-};
-
 async function loadWeather(attempt = 1) {
   const nowEl = document.getElementById("weather-now");
   const hoursEl = document.getElementById("weather-hours");
   try {
-    const url = "https://api.open-meteo.com/v1/forecast?latitude=35.4437&longitude=139.638&current=temperature_2m,weather_code&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Asia%2FTokyo&forecast_days=1";
+    const url = "https://api.weatherapi.com/v1/forecast.json?key=03c5c28a38014ceba5765705260406&q=35.4437,139.638&days=1&lang=ja";
     const r = await fetch(url);
     if (!r.ok) throw new Error("HTTP " + r.status);
     const d = await r.json();
-    const [cdesc, cicon] = WMO[d.current.weather_code] || ["—", "❓"];
-    nowEl.innerHTML = `<span class="temp">${cicon} ${Math.round(d.current.temperature_2m)}°C</span><span class="desc">${cdesc}(現在)</span>`;
-    hoursEl.innerHTML = d.hourly.time.map((t, i) => {
-      const h = new Date(t).getHours();
-      if (h < 10 || h > 17) return "";
-      const [, icon] = WMO[d.hourly.weather_code[i]] || ["", "❓"];
-      return `<div class="wh"><div>${h}時</div><div class="t">${icon} ${Math.round(d.hourly.temperature_2m[i])}°</div><div class="p">☔${d.hourly.precipitation_probability[i]}%</div></div>`;
+    const cur = d.current;
+    nowEl.innerHTML = `<img src="https:${cur.condition.icon}" width="40" height="40" alt=""><span class="temp">${Math.round(cur.temp_c)}°C</span><span class="desc">${cur.condition.text}(現在)</span>`;
+    hoursEl.innerHTML = d.forecast.forecastday[0].hour.map(hr => {
+      const h = new Date(hr.time).getHours();
+      if (h < 10 || h > 18) return "";
+      return `<div class="wh"><div>${h}時</div><div class="t"><img src="https:${hr.condition.icon}" width="22" height="22" alt=""> ${Math.round(hr.temp_c)}°</div><div class="p">☔${hr.chance_of_rain}%</div></div>`;
     }).join("");
   } catch (e) {
     if (attempt < 4) {
@@ -190,33 +204,9 @@ async function loadWeather(attempt = 1) {
   }
 }
 
-function initMap() {
-  const spots = [
-    [35.4438, 139.6532, "1. 港の見える丘公園 (11:00)"],
-    [35.4427, 139.6455, "2. 中華街ランチ＆食べ歩き (12:00)"],
-    [35.4460, 139.6503, "3. 山下公園 (14:00)"],
-    [35.4523, 139.6461, "4. 大さん橋デッキ (14:45)"],
-    [35.4527, 139.6425, "5. 赤レンガ倉庫 (15:20)"],
-    [35.4553, 139.6365, "6. コスモクロック21 (16:00)"],
-  ];
-  const map = L.map("map", { scrollWheelZoom: false });
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-  }).addTo(map);
-  const latlngs = spots.map(s => [s[0], s[1]]);
-  L.polyline(latlngs, { color: "#4fc3f7", weight: 3, dashArray: "6 8", opacity: .8 }).addTo(map);
-  spots.forEach((s, i) => {
-    L.marker([s[0], s[1]], {
-      icon: L.divIcon({ className: "", html: `<div class="num-pin">${i + 1}</div>`, iconSize: [24, 24], iconAnchor: [12, 12] }),
-    }).addTo(map).bindPopup(s[2]);
-  });
-  map.fitBounds(L.latLngBounds(latlngs).pad(0.15));
-}
-
 render();
 setInterval(render, 60000);
 loadWeather();
-initMap();
 </script>
 </body>
 </html>
