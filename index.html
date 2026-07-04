@@ -164,12 +164,13 @@ const WMO = {
   81: ["にわか雨", "🌧️"], 82: ["激しいにわか雨", "⛈️"], 95: ["雷雨", "⛈️"],
 };
 
-async function loadWeather() {
+async function loadWeather(attempt = 1) {
   const nowEl = document.getElementById("weather-now");
   const hoursEl = document.getElementById("weather-hours");
   try {
     const url = "https://api.open-meteo.com/v1/forecast?latitude=35.4437&longitude=139.638&current=temperature_2m,weather_code&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Asia%2FTokyo&forecast_days=1";
     const r = await fetch(url);
+    if (!r.ok) throw new Error("HTTP " + r.status);
     const d = await r.json();
     const [cdesc, cicon] = WMO[d.current.weather_code] || ["—", "❓"];
     nowEl.innerHTML = `<span class="temp">${cicon} ${Math.round(d.current.temperature_2m)}°C</span><span class="desc">${cdesc}(現在)</span>`;
@@ -180,7 +181,12 @@ async function loadWeather() {
       return `<div class="wh"><div>${h}時</div><div class="t">${icon} ${Math.round(d.hourly.temperature_2m[i])}°</div><div class="p">☔${d.hourly.precipitation_probability[i]}%</div></div>`;
     }).join("");
   } catch (e) {
-    nowEl.innerHTML = '<span class="desc">天気の取得に失敗しました</span>';
+    if (attempt < 4) {
+      nowEl.innerHTML = `<span class="desc">読み込み中…(再試行 ${attempt}/3)</span>`;
+      setTimeout(() => loadWeather(attempt + 1), attempt * 3000);
+    } else {
+      nowEl.innerHTML = '<span class="desc">天気の取得に失敗しました(あとでリロードしてみてください)</span>';
+    }
   }
 }
 
